@@ -6,6 +6,7 @@
 <title>Undertone · white ink on colored paper</title>
 <meta name="description" content="An A5 notebook of colored paper with a white gel pen. Draw on the page to get a feel for it.">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1d1c1b">
 <meta property="og:title" content="Undertone · white ink on colored paper">
 <meta property="og:description" content="Draw on the page to get a feel for white gel ink on colored paper.">
 <meta property="og:image" content="https://stationonemain-source.github.io/undertone/img/blue.jpg">
@@ -25,15 +26,15 @@
 body[data-paper="red"]{--paper:#7A2629}
 body[data-paper="black"]{--paper:#1E1D1C}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth}
 body{margin:0;background:var(--desk);color:var(--gel);font:16px/1.6 var(--caslon);-webkit-font-smoothing:antialiased}
 a{color:inherit}
 p{text-wrap:pretty}
-button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;touch-action:manipulation}
 :focus-visible{outline:2px solid var(--gel);outline-offset:3px;border-radius:6px}
 
 /* ---------- the desk ---------- */
-.desk{position:relative;height:100svh;min-height:620px;max-height:1100px;overflow:hidden;
+.desk{position:relative;height:100svh;min-height:620px;max-height:1100px;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
   background:radial-gradient(ellipse 75% 85% at 32% 0%,#2e2c29 0%,#22211f 50%,#161514 100%)}
 
 .plate{position:absolute;left:0;top:0;width:2048px;height:1360px;transform-origin:0 0;
@@ -49,7 +50,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='3.4' fill='%23F3F1EA' stroke='%23000' stroke-opacity='.45' stroke-width='1'/%3E%3C/svg%3E") 14 14, crosshair}
 #ink{opacity:.86;pointer-events:none}
 
-.top{position:absolute;z-index:4;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,3vw,36px)}
+.top{position:absolute;z-index:4;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px max(clamp(16px,3vw,36px),env(safe-area-inset-right)) 18px max(clamp(16px,3vw,36px),env(safe-area-inset-left))}
 .mark{font:400 26px/1 var(--caslon);letter-spacing:-.01em;color:var(--gel);text-decoration:none}
 .top-buy{display:flex;align-items:center;gap:18px;font:500 14px/1.3 var(--franklin);color:var(--gel-3)}
 .top-buy .specs{white-space:nowrap}
@@ -160,7 +161,53 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   .mine{width:min(78%,300px)}
   .qa{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ---------- phones: the tools ride along at the bottom of the screen ---------- */
+.bar{display:none}
+.docked .tools{position:fixed;left:0;right:0;bottom:0;top:auto!important;transform:none;width:auto;z-index:20;
+  justify-content:space-between;gap:10px;flex-wrap:nowrap;
+  padding:9px max(12px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+  background:rgba(24,23,22,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid rgba(243,241,234,.1);transition:transform .3s ease}
+.docked .tools.away{transform:translateY(110%)}
+.docked .desk{min-height:0;max-height:none}
+.docked .papers{gap:8px}
+.docked .chip{gap:4px}
+.docked .chip i{width:40px;height:32px;background-size:600px auto;background-position:-300px -100px}
+.docked .chip[aria-pressed="true"] i{transform:none}
+.docked .acts{gap:4px}
+.docked .act{padding:0 10px}
+.docked .save .long{display:none}
+.docked .lede h1{font-size:28px}
+.docked .specline .more{display:none}
+.docked .rendernote{bottom:auto;right:auto;left:max(16px,env(safe-area-inset-left))}
+.land .lede{max-width:none}
+.land .desk::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(29,28,27,.97) 0,rgba(29,28,27,.97) calc(var(--fade) - 80px),rgba(29,28,27,0) calc(var(--fade) - 6px))}
+.land .lede h1{font-size:26px}
+.land .lede p{font-size:14px}
+
+.docked .bar{display:flex;position:fixed;z-index:20;left:0;right:0;bottom:0;align-items:center;gap:12px;
+  padding:10px max(16px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  background:rgba(24,23,22,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid rgba(243,241,234,.1);transform:translateY(110%);transition:transform .3s ease}
+.docked .bar.on{transform:none}
+.bar canvas{width:36px;height:45px;border-radius:3px;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+.bar-t{flex:1;min-width:0;font:400 14px/1.35 var(--franklin);color:var(--gel-2)}
+.bar-t b,.bar-t span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-t b{font-weight:500;color:var(--gel)}
+
+@media (max-width:719px){
+  .buy-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}
+  .buy-grid > div{display:contents}
+  .buy h2{order:1}
+  .buy .sub{order:2;margin-bottom:24px}
+  .mine{order:3;width:min(62%,260px);margin:0 auto 28px}
+  .pick{order:4}
+  .checkout{order:5;width:100%}
+  .set{order:6}
+  .co-note{order:7}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body data-paper="blue">
@@ -182,7 +229,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   <div class="lede" id="lede">
     <h1>The right-hand page is yours.</h1>
     <p>Draw on it to get a feel for white gel ink on colored paper, then switch the paper to see it in red or black.</p>
-    <p class="specline">A5 notebook · 192 pages · white gel pen included · 3 colors for $69.99</p>
+    <p class="specline">A5 notebook · 192 pages · white gel pen included<span class="more"> · 3 colors for $69.99</span></p>
   </div>
 
   <span class="hint" id="hint">Write here</span>
@@ -196,12 +243,18 @@ footer .mark{font-size:20px;color:var(--gel-2)}
     <div class="acts">
       <button class="act" id="undo" disabled>Undo</button>
       <button class="act" id="clear" disabled>Clear</button>
-      <button class="act save" id="save" disabled>Save your page</button>
+      <button class="act save" id="save" aria-label="Save your page" disabled>Save<span class="long"> your page</span></button>
     </div>
   </div>
 
-  <p class="rendernote">These photos are renders until our samples arrive.</p>
+  <p class="rendernote" id="note">These photos are renders until our samples arrive.</p>
 </section>
+
+<div class="bar" id="bar">
+  <canvas id="thumb" width="72" height="90" aria-hidden="true"></canvas>
+  <span class="bar-t"><b id="barName">Blue paper</b><span id="barSub">With a white gel pen</span></span>
+  <a class="btn btn-gel" id="barBuy" href="#buy">$29.99 · Buy</a>
+</div>
 
 <section class="sheet" id="notebook">
   <div class="wrap">
@@ -277,9 +330,52 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   const sctx = scratch.getContext('2d'); sctx.scale(RES, RES);
 
   /* ---------- placing the photo ---------- */
-  function layout() {
-    const cw = desk.clientWidth, vh = innerHeight;
-    const narrow = cw < 720, wide = cw >= 1100;
+  const note = document.getElementById('note');
+  let lastW = 0, stableH = 0;
+  function layout(force) {
+    const cw = desk.clientWidth;
+    if (force !== true && cw === lastW && Math.abs(innerHeight - stableH) < 150) return;   // a phone's address bar sliding away is not a new layout
+    lastW = cw; stableH = innerHeight;
+    const vh = stableH;
+    const land = vh < 500 && cw >= 560 && cw < 1100;    // a phone on its side
+    const narrow = cw < 720 && !land, wide = cw >= 1100;
+    const docked = narrow || land;
+    document.body.classList.toggle('docked', docked);
+    document.body.classList.toggle('land', land);
+    for (const el of [tools, note]) { el.style.left = el.style.top = ''; }
+    if (docked) {
+      const dockH = tools.offsetHeight, noteH = 30;
+      let s, tx, ty;
+      if (land) {
+        const top = 20, bottom = vh - dockH - 12, left = cw * 0.44, right = cw - 150;   // clear of the Buy button
+        s = Math.min((bottom - top) / PAGE.h, (right - left) / PAGE.w);
+        tx = (left + right) / 2 - (PAGE.x + PAGE.w / 2) * s;
+        ty = top - PAGE.y * s;
+        const pageX = tx + PAGE.x * s, ledeX = Math.max(16, cw * 0.035);
+        desk.style.setProperty('--fade', pageX + 'px');          // the left page fades into the desk under the words
+        lede.style.left = ledeX + 'px'; lede.style.right = 'auto';
+        lede.style.width = (pageX - 32 - ledeX) + 'px'; lede.style.top = '76px'; lede.style.bottom = 'auto';
+        desk.style.height = vh + 'px';
+        note.style.top = (vh - dockH - noteH) + 'px';
+      } else {
+        lede.style.left = '16px'; lede.style.right = '16px'; lede.style.width = '';
+        lede.style.top = '74px'; lede.style.bottom = 'auto';
+        const ledeBottom = lede.offsetTop + lede.offsetHeight;
+        const room = vh - ledeBottom - 14 - noteH - dockH - 6;
+        s = Math.max(cw * 0.72 / PAGE.w, Math.min(cw * 0.84 / PAGE.w, room / PAGE.h));   // on a short phone the page runs on under the tools rather than shrinking to nothing
+        tx = cw / 2 - (PAGE.x + PAGE.w / 2) * s;
+        ty = ledeBottom + 14 - PAGE.y * s;
+        const pageBottom = ty + (PAGE.y + PAGE.h) * s;
+        desk.style.height = Math.round(pageBottom + noteH + dockH + 6) + 'px';
+        note.style.top = (pageBottom + 8) + 'px';
+      }
+      plate.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+      hint.style.left = (tx + (PAGE.x + PAGE.w / 2) * s) + 'px';
+      hint.style.top = (ty + (PAGE.y + PAGE.h * 0.12) * s) + 'px';
+      dockState();
+      return;
+    }
+    lede.style.width = '';
     if (wide) {
       lede.style.left = Math.max(16, cw * 0.045) + 'px'; lede.style.right = 'auto';
     } else {
@@ -319,9 +415,21 @@ footer .mark{font-size:20px;color:var(--gel-2)}
     hint.style.top = (page.y + page.h * 0.12) + 'px';
     if (wide) { lede.style.top = 'auto'; lede.style.bottom = Math.max(48, ch * 0.16) + 'px'; }
   }
+
+  /* on a phone the tools stay at the bottom of the screen while the notebook is in view,
+     then give way to a buy bar until the buy section itself is on screen */
+  const bar = document.getElementById('bar'), buySec = document.getElementById('buy');
+  function dockState() {
+    const docked = document.body.classList.contains('docked');
+    const onDesk = desk.getBoundingClientRect().bottom > innerHeight * 0.4;
+    const beforeBuy = buySec.getBoundingClientRect().top > innerHeight - 40;
+    tools.classList.toggle('away', docked && !onDesk);
+    bar.classList.toggle('on', docked && !onDesk && beforeBuy);
+  }
+  addEventListener('scroll', dockState, {passive: true});
   addEventListener('resize', layout);
-  layout();
-  document.fonts && document.fonts.ready.then(layout);
+  layout(true);
+  document.fonts && document.fonts.ready.then(() => layout(true));
 
   /* ---------- white gel ink ----------
      Each stroke is drawn solid on a scratch layer, then laid onto the page at the ink's own
@@ -387,6 +495,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
     lctx.clearRect(0, 0, PAGE.w, PAGE.h);
     drawStroke(lctx, cur, 0);
     hint.classList.add('gone');
+    if (e.pointerType === 'touch' && navigator.vibrate) navigator.vibrate(4);   // the pen touching down
   });
 
   live.addEventListener('pointermove', e => {
@@ -460,8 +569,10 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   const NAMES = {blue: 'blue', red: 'red', black: 'black'};
   const mine = document.getElementById('mine');
   const mineCap = document.getElementById('mineCap');
+  const thumb = document.getElementById('thumb');
   function updateMine() {
     compose(mine, false);
+    compose(thumb, false);
     mineCap.innerHTML = strokes.length
       ? `Your page on ${NAMES[paper]} paper. The photo is a render, so the real paper may look a little different.`
       : `Your page on ${NAMES[paper]} paper, still blank. <a href="#desk">Draw on it</a> and it shows up here.`;
@@ -512,6 +623,9 @@ footer .mark{font-size:20px;color:var(--gel-2)}
       : `Or <button id="setBtn">all three colors for $69.99</button>, three pens included. That's $19.98 less than buying them one at a time.`;
     document.getElementById('setBtn').addEventListener('click', () => { three = !three; updateCheckout(); });
     coNote.textContent = '';
+    document.getElementById('barName').textContent = three ? 'Blue, red and black' : `${NAMES[paper][0].toUpperCase()}${NAMES[paper].slice(1)} paper`;
+    document.getElementById('barSub').textContent = three ? 'Three notebooks, three pens' : 'With a white gel pen';
+    document.getElementById('barBuy').textContent = three ? '$69.99 · Buy' : '$29.99 · Buy';
   }
   checkout.addEventListener('click', () => {
     const what = three ? 'the set of three' : `one ${NAMES[paper]} notebook`;
