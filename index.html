@@ -23,6 +23,7 @@
   --franklin:"Libre Franklin", "Helvetica Neue", Arial, sans-serif;
   --paper:#1B3A86;
 }
+body[data-paper="green"]{--paper:#24473F}
 body[data-paper="red"]{--paper:#7A2629}
 body[data-paper="black"]{--paper:#1E1D1C}
 *{box-sizing:border-box}
@@ -71,6 +72,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .chip{display:flex;flex-direction:column;align-items:center;gap:6px;font:500 12.5px/1 var(--franklin);color:var(--gel-3)}
 .chip i{display:block;width:44px;height:44px;border-radius:6px;background-size:900px auto;background-position:-470px -170px;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 6px 14px rgba(0,0,0,.35);transition:transform .2s ease,box-shadow .2s ease}
 .chip[data-paper="blue"] i{background-image:url(img/blue.jpg)}
+.chip[data-paper="green"] i{background-image:url(img/green.jpg)}
 .chip[data-paper="red"] i{background-image:url(img/red.jpg)}
 .chip[data-paper="black"] i{background-image:url(img/black.jpg)}
 .chip[aria-pressed="true"]{color:var(--gel)}
@@ -103,6 +105,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .crow:last-child{border-bottom:1px solid rgba(243,241,234,.24)}
 .crow .sw{width:92px;height:60px;border-radius:6px;background-size:1400px auto;background-position:-760px -300px;box-shadow:0 0 0 1px rgba(255,255,255,.14)}
 .crow .sw.blue{background-image:url(img/blue.jpg)}
+.crow .sw.green{background-image:url(img/green.jpg)}
 .crow .sw.red{background-image:url(img/red.jpg)}
 .crow .sw.black{background-image:url(img/black.jpg)}
 .crow b{font:400 20px/1.2 var(--caslon)}
@@ -176,6 +179,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
 .docked .chip[aria-pressed="true"] i{transform:none}
 .docked .acts{gap:4px}
 .docked .act{padding:0 10px}
+@media (max-width:419px){.docked .tools{gap:8px}.docked .papers{gap:6px}.docked .chip i{width:34px;height:30px}.docked .act{padding:0 7px}}
 .docked .save .long{display:none}
 .docked .lede h1{font-size:28px}
 .docked .specline .more{display:none}
@@ -202,7 +206,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   .buy h2{order:1}
   .buy .sub{order:2;margin-bottom:24px}
   .mine{order:3;width:min(62%,260px);margin:0 auto 28px}
-  .pick{order:4}
+  .pick{order:4;display:grid;grid-template-columns:1fr 1fr}
   .checkout{order:5;width:100%}
   .set{order:6}
   .co-note{order:7}
@@ -215,6 +219,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
 <section class="desk" id="desk" aria-label="Draw on the notebook">
   <div class="plate" id="plate">
     <img class="photo on" data-paper="blue" src="img/blue.jpg" alt="Render of an open notebook with royal blue pages on a dark desk. The left page has a white ink sketch of a desk lamp; the right page is blank." width="2048" height="1360">
+    <img class="photo" data-paper="green" src="img/green.jpg" alt="" width="2048" height="1360" loading="lazy">
     <img class="photo" data-paper="red" src="img/red.jpg" alt="" width="2048" height="1360" loading="lazy">
     <img class="photo" data-paper="black" src="img/black.jpg" alt="" width="2048" height="1360" loading="lazy">
     <canvas class="inkc" id="ink"></canvas>
@@ -223,13 +228,13 @@ footer .mark{font-size:20px;color:var(--gel-2)}
 
   <header class="top">
     <a class="mark" href="#">Undertone</a>
-    <div class="top-buy"><span class="specs">A5 · 192 pages · white gel pen included · <b>3 colors for $69.99</b></span><a class="btn btn-gel" href="#buy">$29.99 · Buy</a></div>
+    <div class="top-buy"><span class="specs">A5 · 192 pages · white gel pen included · <b>any 3 for $69.99</b></span><a class="btn btn-gel" href="#buy">$29.99 · Buy</a></div>
   </header>
 
   <div class="lede" id="lede">
     <h1>The right-hand page is yours.</h1>
-    <p>Draw on it to get a feel for white gel ink on colored paper, then switch the paper to see it in red or black.</p>
-    <p class="specline">A5 notebook · 192 pages · white gel pen included<span class="more"> · 3 colors for $69.99</span></p>
+    <p>Draw on it to get a feel for white gel ink on colored paper, then switch the paper to see it in green, red or black.</p>
+    <p class="specline">A5 notebook · 192 pages · white gel pen included<span class="more"> · any 3 for $69.99</span></p>
   </div>
 
   <span class="hint" id="hint">Write here</span>
@@ -237,6 +242,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   <div class="tools" id="tools">
     <div class="papers" role="group" aria-label="Paper color">
       <button class="chip" data-paper="blue" aria-pressed="true"><i></i>Blue</button>
+      <button class="chip" data-paper="green" aria-pressed="false"><i></i>Green</button>
       <button class="chip" data-paper="red" aria-pressed="false"><i></i>Red</button>
       <button class="chip" data-paper="black" aria-pressed="false"><i></i>Black</button>
     </div>
@@ -268,9 +274,10 @@ footer .mark{font-size:20px;color:var(--gel-2)}
     <p class="specline2"><span>A5, 148 × 210 mm</span><span>192 pages (96 sheets)</span><span>120g paper, per the maker</span><span>Thread-sewn hardcover</span><span>White gel pen included</span></p>
 
     <div class="colors">
-      <h3>Three papers</h3>
+      <h3>Four papers</h3>
       <div class="crow"><i class="sw blue"></i><b>Blue</b><span>A deep royal blue.</span><button class="try" data-paper="blue">Try it</button></div>
-      <div class="crow"><i class="sw red"></i><b>Red</b><span>A deep red, and the brightest of the three.</span><button class="try" data-paper="red">Try it</button></div>
+      <div class="crow"><i class="sw green"></i><b>Green</b><span>A dark bottle green, like an old chalkboard.</span><button class="try" data-paper="green">Try it</button></div>
+      <div class="crow"><i class="sw red"></i><b>Red</b><span>A deep red, and the brightest of the four.</span><button class="try" data-paper="red">Try it</button></div>
       <div class="crow"><i class="sw black"></i><b>Black</b><span>Near-black, so white ink stands out most.</span><button class="try" data-paper="black">Try it</button></div>
     </div>
   </div>
@@ -288,11 +295,12 @@ footer .mark{font-size:20px;color:var(--gel-2)}
         <p class="sub" id="buySub">One notebook in the paper you pick, with a white gel pen.</p>
         <div class="pick" id="pick" role="group" aria-label="Paper color to buy">
           <button data-paper="blue" aria-pressed="true"><i style="background:#1B3A86"></i>Blue</button>
+          <button data-paper="green" aria-pressed="false"><i style="background:#24473F"></i>Green</button>
           <button data-paper="red" aria-pressed="false"><i style="background:#7A2629"></i>Red</button>
           <button data-paper="black" aria-pressed="false"><i style="background:#1E1D1C"></i>Black</button>
         </div>
         <button class="checkout" id="checkout">Buy · $29.99</button>
-        <span class="set" id="set">Or <button id="setBtn">all three colors for $69.99</button>, three pens included. That's $19.98 less than buying them one at a time.</span>
+        <span class="set" id="set">Or <button id="setBtn">any three colors for $69.99</button>, three pens included. That's $19.98 less than buying them one at a time.</span>
         <p class="co-note" id="coNote" aria-live="polite"></p>
       </div>
     </div>
@@ -566,7 +574,7 @@ footer .mark{font-size:20px;color:var(--gel-2)}
     }
   }
 
-  const NAMES = {blue: 'blue', red: 'red', black: 'black'};
+  const NAMES = {blue: 'blue', green: 'green', red: 'red', black: 'black'};
   const mine = document.getElementById('mine');
   const mineCap = document.getElementById('mineCap');
   const thumb = document.getElementById('thumb');
@@ -618,12 +626,12 @@ footer .mark{font-size:20px;color:var(--gel-2)}
   function updateCheckout() {
     pick.classList.toggle('off', three);
     checkout.textContent = three ? 'Buy the set of three · $69.99' : 'Buy · $29.99';
-    buySub.textContent = three ? 'Blue, red and black, with a white gel pen for each.' : 'One notebook in the paper you pick, with a white gel pen.';
+    buySub.textContent = three ? 'Any three colors, with a white gel pen for each.' : 'One notebook in the paper you pick, with a white gel pen.';
     setLine.innerHTML = three ? 'Or <button id="setBtn">just one for $29.99</button>.'
-      : `Or <button id="setBtn">all three colors for $69.99</button>, three pens included. That's $19.98 less than buying them one at a time.`;
+      : `Or <button id="setBtn">any three colors for $69.99</button>, three pens included. That's $19.98 less than buying them one at a time.`;
     document.getElementById('setBtn').addEventListener('click', () => { three = !three; updateCheckout(); });
     coNote.textContent = '';
-    document.getElementById('barName').textContent = three ? 'Blue, red and black' : `${NAMES[paper][0].toUpperCase()}${NAMES[paper].slice(1)} paper`;
+    document.getElementById('barName').textContent = three ? 'Any three colors' : `${NAMES[paper][0].toUpperCase()}${NAMES[paper].slice(1)} paper`;
     document.getElementById('barSub').textContent = three ? 'Three notebooks, three pens' : 'With a white gel pen';
     document.getElementById('barBuy').textContent = three ? '$69.99 · Buy' : '$29.99 · Buy';
   }
